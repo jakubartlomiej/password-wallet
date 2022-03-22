@@ -1,5 +1,8 @@
-# password-wallet
-Java, Hibernate, SpringBoot, Thymleaf
+# PASSWORD WALLET
+## Technologies: Java, Hibernate, SpringBoot, Thymleaf
 
 Application allow to save you password to another website in wallet.
-User can choose which alghoritm to hashed password use.
+
+User can choose which algorithm use to hash your main password.
+
+After click the button near saved password, application show password in plain text.
