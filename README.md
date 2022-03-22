@@ -3,6 +3,6 @@
 
 Application allow to save you password to another website in wallet.
 
-User can choose which algorithm use to hash your main password.
+User can choose which algorithm use to hash main password.
 
 After click the button near saved password, application show password in plain text.
