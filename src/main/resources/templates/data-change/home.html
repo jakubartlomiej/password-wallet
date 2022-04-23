@@ -34,8 +34,26 @@
             <th th:text="${stat.index}+1"></th>
             <td th:text="${#temporals.format(item.time, 'dd-MM-yyyy HH:mm:ss')}"></td>
             <td th:text="${item.passwordIdModified}"></td>
-            <td th:text="${item.previousValue}"></td>
-            <td th:text="${item.presentValue}"></td>
+            <td>
+                 <span th:if="${item.previousValue != null}">
+                     <span th:if="${item.previousValue.length() > 30}">
+                         <span th:text="${item.previousValue.substring(0,30).concat('....')}"></span>
+                     </span>
+                     <span th:if="${item.previousValue.length() < 30}">
+                         <span th:text="${item.previousValue}"></span>
+                     </span>
+                 </span>
+            </td>
+            <td>
+                 <span th:if="${item.presentValue != null}">
+                     <span th:if="${item.presentValue.length() > 30}">
+                         <span th:text="${item.presentValue.substring(0,30).concat('....')}"></span>
+                     </span>
+                     <span th:if="${item.presentValue.length() < 30}">
+                         <span th:text="${item.presentValue}"></span>
+                     </span>
+                 </span>
+            </td>
             <td th:text="${item.action.name}"></td>
             <td th:text="${item.action.description}"></td>
             <td>
