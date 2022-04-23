@@ -30,6 +30,7 @@ public class UserController {
             return "user/login";
         }
         model.addAttribute("success", success);
+
         return "redirect:/";
     }
 
@@ -54,7 +55,9 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-    public String getEditPasswordPage() {
+    public String getEditPasswordPage(Model model, Principal principal) {
+        String login = principal.getName();
+        model.addAttribute("username", login);
         return "user/edit";
     }
 
@@ -68,7 +71,7 @@ public class UserController {
         String username = principal.getName();
         if (userService.editPassword(password, username)) {
             User user = userService.findByLogin(username);
-            walletService.editUserMainPasswordInWallet(user.getId(), password);
+            walletService.editUserMainPasswordInWallet(user, password);
         } else {
             return "redirect:/edit";
         }

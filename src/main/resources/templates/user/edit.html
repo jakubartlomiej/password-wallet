@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container">
+    <nav th:replace="fragments/nav :: nav"></nav>
     <h2>Edytuj hasło główne: </h2>
     <form method="post" th:action="@{/edit}">
         <div class="form-group">

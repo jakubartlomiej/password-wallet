@@ -12,28 +12,30 @@
 <body>
 <div class="container">
     <nav th:replace="fragments/nav :: nav"></nav>
-    <h2>Dodaj witrynę do portfela: </h2>
-    <form method="post" th:action="@{/wallet/add}">
+    <h2>Edytuj witrynę w portfelu: </h2>
+    <form method="post" th:object="${wallet}" th:action="@{/wallet/edit/{id}(id=${wallet.id})}">
         <div class="form-group">
-            <label for="webAddress">Adres strony internetowej</label>
-            <input type="text" class="form-control" id="webAddress" name="webAddress"
+            <label th:for="webAddress">Adres strony internetowej</label>
+            <input type="text" class="form-control" th:field="*{webAddress}"
                    placeholder="Adres strony internetowej">
         </div>
         <div class="form-group">
-            <label for="description">Opis</label>
-            <input type="text" class="form-control" id="description" name="description"
+            <label th:for="description">Opis</label>
+            <input type="text" class="form-control" th:field="*{description}"
                    placeholder="Opis">
         </div>
         <div class="form-group">
-            <label for="loginToWebAddress">Login</label>
-            <input type="text" class="form-control" id="loginToWebAddress" name="loginToWebAddress"
+            <label th:for="login">Login</label>
+            <input type="text" class="form-control" th:field="*{login}"
                    placeholder="Login">
         </div>
         <div class="form-group">
-            <label for="passwordToWebAddress">Hasło</label>
-            <input type="password" class="form-control" id="passwordToWebAddress" name="passwordToWebAddress"
+            <label th:for="password">Hasło</label>
+            <input type="password" class="form-control" th:field="*{password}"
                    placeholder="Hasło">
         </div>
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{user}">
         <button type="submit" class="btn btn-primary">Zapisz</button>
         <a class="btn btn-primary" href="/">Powrót do listy</a>
     </form>

@@ -3,22 +3,23 @@ package com.jakubartlomiej.passwordwallet.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-public class Wallet {
+@Entity(name = "function_run")
+public class FunctionRun {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String webAddress;
-    private String description;
-    private String login;
-    private String password;
-    private boolean deleted;
-    @OneToOne
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime time;
+    @ManyToOne
+    private Function function;
+    @ManyToOne
     private User user;
 }

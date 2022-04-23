@@ -1,8 +1,13 @@
 package com.jakubartlomiej.passwordwallet.config;
 
+import com.jakubartlomiej.passwordwallet.model.Function;
+import com.jakubartlomiej.passwordwallet.model.FunctionRun;
 import com.jakubartlomiej.passwordwallet.model.User;
+import com.jakubartlomiej.passwordwallet.model.enums.FunctionName;
 import com.jakubartlomiej.passwordwallet.security.SecurityUtil;
 import com.jakubartlomiej.passwordwallet.security.WalletSecurityUtil;
+import com.jakubartlomiej.passwordwallet.service.FunctionRunService;
+import com.jakubartlomiej.passwordwallet.service.FunctionService;
 import com.jakubartlomiej.passwordwallet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final UserService userService;
     private final SecurityUtil securityUtil;
     private final WalletSecurityUtil walletSecurityUtil;
+    private final FunctionService functionService;
+    private final FunctionRunService functionRunService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,6 +42,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 final List<GrantedAuthority> grantedAuths = new ArrayList<>();
                 grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
                 walletSecurityUtil.passwordUser = password;
+
+                FunctionRun functionRunLoginUser = createFunctionRunLoginUser(user);
+                functionRunService.save(functionRunLoginUser);
+
                 return new UsernamePasswordAuthenticationToken(
                         name, password, grantedAuths);
             } else {
@@ -55,5 +67,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         } else {
             return securityUtil.getSecuredPasswordByHMCA(password, user.getSalt()).equals(user.getPasswordHash());
         }
+    }
+
+    private FunctionRun createFunctionRunLoginUser(User user) {
+        Function function = functionService.findByName(FunctionName.LOGIN);
+        FunctionRun functionRun = new FunctionRun();
+        functionRun.setUser(user);
+        functionRun.setFunction(function);
+        functionRun.setTime(LocalDateTime.now());
+        return functionRun;
     }
 }

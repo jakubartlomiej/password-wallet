@@ -1,5 +1,6 @@
 package com.jakubartlomiej.passwordwallet.model;
 
+import com.jakubartlomiej.passwordwallet.model.enums.FunctionName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,15 +11,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Wallet {
+public class Function {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String webAddress;
+    @Enumerated(EnumType.STRING)
+    private FunctionName name;
     private String description;
-    private String login;
-    private String password;
-    private boolean deleted;
-    @OneToOne
-    private User user;
 }

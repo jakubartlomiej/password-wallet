@@ -30,12 +30,25 @@ class WalletServiceTest {
     private WalletRepository walletRepository;
     @InjectMocks
     private WalletSecurityUtil walletSecurityUtil;
+    @InjectMocks
+    private FunctionService functionService;
+    @InjectMocks
+    private FunctionRunService functionRunService;
+    @InjectMocks
+    private DataChangeService dataChangeService;
+    @InjectMocks
+    private ActionService actionService;
     private WalletService underTest;
     private User user;
 
     @BeforeEach
     void setUp() {
-        underTest = new WalletService(walletRepository, walletSecurityUtil);
+        underTest = new WalletService(walletRepository,
+                walletSecurityUtil,
+                functionService,
+                functionRunService,
+                dataChangeService,
+                actionService);
         user = new User();
         user.setId(1L);
         user.setPasswordHash("test");

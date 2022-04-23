@@ -15,43 +15,22 @@
 <body>
 <div class="container">
     <nav th:replace="fragments/nav :: nav"></nav>
-    <h2>Lista haseł w portfelu: </h2>
+    <h2>Lista wywołanych funkcji: </h2>
     <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Id rekordu</th>
-            <th scope="col">Strona internetowa</th>
-            <th scope="col">Opis</th>
-            <th scope="col">Login</th>
-            <th scope="col">Wyświetl hasło</th>
-            <th scope="col">Edytuj hasło</th>
-            <th scope="col">Skasuj hasło z portfela</th>
+            <th scope="col">Nazwa funkcji</th>
+            <th scope="col">Opis funckji</th>
+            <th scope="col">Data wywołania</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item, stat : ${wallet}">
+        <tr th:each="item, stat : ${functions}">
             <th th:text="${stat.index}+1"></th>
-            <td th:text="${item.id}"></td>
-            <td th:text="${item.webAddress}"></td>
-            <td th:text="${item.description}"></td>
-            <td th:text="${item.login}"></td>
-            <td>
-                <span th:if="${decrypt.isEmpty()}">
-                    <a class="btn btn-secondary btn-sm" th:href="@{/wallet/decrypt/{id}(id=${item.id})}">Pokaż hasło</a>
-                </span>
-                <span th:if="${decrypt.size()>0}">
-                    <span th:if="${decrypt.containsKey(item.id)}">
-                        <span th:text="${decrypt.get(item.id)}"></span>
-                    </span>
-                    <span th:unless="${decrypt.containsKey(item.id)}">
-                        <a class="btn btn-secondary btn-sm"
-                           th:href="@{/wallet/decrypt/{id}(id=${item.id})}">Pokaż hasło</a>
-                    </span>
-                </span>
-            </td>
-            <td><a class="btn btn-secondary btn-sm" th:href="@{/wallet/edit/{id}(id=${item.id})}">EDIT</a></td>
-            <td><a class="btn btn-secondary btn-sm" th:href="@{/wallet/delete/{id}(id=${item.id})}">DELETE</a></td>
+            <td th:text="${item.function.name}"></td>
+            <td th:text="${item.function.description}"></td>
+            <td th:text="${#temporals.format(item.time, 'dd-MM-yyyy HH:mm:ss')}"></td>
         </tr>
         </tbody>
     </table>
